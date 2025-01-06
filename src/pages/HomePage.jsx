@@ -19,6 +19,9 @@ const HomePage = () => {
     const [showPopup, setShowPopup] = useState({ show: false, x: 0, y: 0}); // State for popup visibility
     const[msgBtnDisabled, setMsgBtnDisabled] = useState(true);
 
+    // State to manage after Logout
+    const [redirect, setRedirect] = useState(false);
+
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
     const toggleMessages = () => setMessagesOpen(!isMessagesOpen);
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
@@ -42,6 +45,12 @@ const HomePage = () => {
         }
     };
 
+    // Logout function
+    const handleLogout = () => {
+        localStorage.removeItem("token"); // Remove the token from localStorage
+        setRedirect(true); // Set the redirect flag tp true
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 relative">
             {/* Header */}
@@ -56,6 +65,8 @@ const HomePage = () => {
                 <ProfileDropdown 
                     toggleDropdown={toggleDropdown} 
                     isDropdownOpen={isDropdownOpen}
+                    handleLogout={handleLogout}
+                    redirect={redirect}
                 />  
 
                 {/* Sidebar */}
