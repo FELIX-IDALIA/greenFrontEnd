@@ -175,7 +175,7 @@ const SignUp = ({ setForm }) => {
                 </form>
 
                 <p className="text-center mt-6 text-gray-700 font-medium">
-                    Have an account already?{' '}
+                    Have an account?{' '}
                     <button 
                         onClick={() => setForm("signIn")}
                         className="text-blue-500 hover:text-blue-700 font-medium"
