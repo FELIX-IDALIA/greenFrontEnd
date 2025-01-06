@@ -14,7 +14,7 @@ const ActionFooter = ({ handleButtonClick, showPopup }) => {
                     <Video className="h-5 w-5" />
                     Go Live
                 </button>
-                <button className="flex items-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg border border-gray-200 hover:bg-gray-200 transition">
+                <button className="flex items-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg border border-gray-200 hover:bg-gray-300 transition">
                     <History className="h-5 w-5" />
                     View Past Live
                 </button>
