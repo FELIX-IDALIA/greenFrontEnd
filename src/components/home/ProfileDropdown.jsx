@@ -1,8 +1,14 @@
 //import UserImg from "../../assets/idalia.jpg";
 import { ChevronDown, User, Settings, Key, Trash2, LogOut, } from "lucide-react";
+import { Navigate } from "react-router-dom";
 
 // Profile Drop-down, right side
-const ProfileDropdown = ({ toggleDropdown, isDropdownOpen }) => {
+const ProfileDropdown = ({ toggleDropdown, isDropdownOpen, handleLogout, redirect }) => {
+    // Redirect the user to the login page if they are logged out
+    if (redirect) {
+        return <Navigate to="/" replace />;
+    }
+
     return (
     <div className="relative">
         <button
@@ -46,7 +52,10 @@ const ProfileDropdown = ({ toggleDropdown, isDropdownOpen }) => {
                         <Trash2 className="h-4 w-4 text-gray-600" />
                         <span className="text-red-700">Delete Account</span>
                     </button>
-                    <button className="w-full px-4 py-2 text-left flex items-center gap-3  hover:bg-gray-50">
+                    <button 
+                        className="w-full px-4 py-2 text-left flex items-center gap-3  hover:bg-gray-300"
+                        onClick={handleLogout}
+                    >
                         <LogOut className="h-4 w-4 text-gray-600" />
                         <span className="text-gray-700">LogOut</span>
                     </button>
