@@ -44,7 +44,7 @@ const SignUp = ({ setForm }) => {
             setButtonText("Submitting...");
 
             try {
-                const response = await fetch("https://2218-154-159-237-39.ngrok-free.app/Account/SignUp", {
+                const response = await fetch("http://localhost:3000/Account/SignUp", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
