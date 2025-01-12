@@ -11,11 +11,15 @@ import MsgSidebar from "../components/home/MsgSidebar.jsx";
 import Main from "../components/home/Main.jsx";
 import ActionFooter from "../components/home/ActionFooter.jsx";
 import FloatingMsgBtn from "../components/home/FloatingMsgBtn.jsx";
+import SearchBar from "../components/home/SearchBar.jsx";
 
 const HomePage = () => {
     
     {/* Navigate */}
     const navigate = useNavigate();
+
+    {/* State to manage search */}
+    const [searchQuery, setSearchQuery] = useState("");
 
     {/* Example message count (Mock data)*/}
     const [newMessages, setNewMessages] = useState(5);
@@ -74,6 +78,11 @@ const HomePage = () => {
         setRedirect(true); // Set the redirect flag tp true
     };
 
+    // Function to handle search
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
     
 
     return (
@@ -85,6 +94,9 @@ const HomePage = () => {
                 <LeftSideTB 
                     toggleSidebar={toggleSidebar}
                 /> 
+
+                {/* SearchBar */}
+                <SearchBar value={searchQuery} onChange={handleSearchChange} />
 
                 {/* Profile Dropdown */}
                 <AccountDropdown 
