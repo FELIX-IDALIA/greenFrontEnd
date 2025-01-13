@@ -5,6 +5,8 @@ import SignUp from "./components/forms/SignUp.jsx";
 import HomePage from "./pages/HomePage.jsx";
 //import Logout from "./components/home/Logout.jsx";
 import Profile from "./components/home/Profile.jsx";
+import CreateStream from "./components/streams/CreateStream.jsx";
+import GetActiveStreams from "./components/"
 
 
 
@@ -29,6 +31,7 @@ const App = () => {
               </PrivateRoute>
            }
           />
+
           <Route
             path="/home/profile"
             element={
@@ -38,10 +41,17 @@ const App = () => {
 
             }
           />
-          
-            
 
-            {/*
+          <Route 
+            path="/home/goLive"
+            element={
+              <PrivateRoute>
+                <CreateStream />
+              </PrivateRoute>
+            }
+          />
+
+          {/*
             <Route path="Profile"  element={<Profile />} />
             <Route path="LogOut"  element={<Logout />} />
             <Route path="Settings" element={<Settings />} />
