@@ -12,7 +12,7 @@ const CreateStream = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const response = await fetch("/api/auth/me", {
+                const response = await fetch("/home/goLive", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -75,7 +75,7 @@ const CreateStream = () => {
 
     return (
         <div>
-            <video ref={VideoRef} autoPlay muted className="w-full max-w-2xl" />
+            <video ref={videoRef} autoPlay muted className="w-full max-w-2xl" />
             <div className="mt-4">
                 {!isStreaming ? (
                     <button
