@@ -12,7 +12,7 @@ const ActionFooter = ({ handleButtonClick, showPopup, isSidebarOpen, handleGoLiv
                 {/* Go Live Button */}
                 <button 
                     className="flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg border hover:bg-purple-700 transition"                    
-                    onClick={handleButtonClick}
+                    onClick={handleGoLive}
                     
                 
                 >
@@ -22,7 +22,7 @@ const ActionFooter = ({ handleButtonClick, showPopup, isSidebarOpen, handleGoLiv
                 {/*View Past Live Button*/}
                 <button 
                     className="flex items-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition"
-                    onClick={handleGoLive}
+                    onClick={handleButtonClick}
                 >
                     <History className="h-5 w-5" />
                     View Past Live
