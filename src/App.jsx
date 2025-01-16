@@ -1,12 +1,12 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+//import GetActiveStreams from "./components/"
+////import Logout from "./components/home/Logout.jsx";
 import SlashPage from './pages/SlashPage.jsx';
 import SignIn from "./components/forms/SignIn.jsx";
 import SignUp from "./components/forms/SignUp.jsx";
 import HomePage from "./pages/HomePage.jsx";
-//import Logout from "./components/home/Logout.jsx";
 import Profile from "./components/home/Profile.jsx";
 import CreateStream from "./components/streams/CreateStream.jsx";
-import GetActiveStreams from "./components/"
 
 
 
