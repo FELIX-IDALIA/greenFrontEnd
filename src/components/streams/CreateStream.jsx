@@ -1,100 +1,163 @@
 import React, { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
+
 
 
 const CreateStream = () => {
+    const [streamData, setStreamData] = useState(null);
     const [isStreaming, setIsStreaming] = useState(false);
-    const [userId, setUserId] = useState(null);
+    const [error, setError] = useState(null);
     const videoRef = useRef();
-    const socketRef = useRef();
     const mediaStreamRef = useRef();
 
-    useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const response = await fetch("/home/goLive", {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
-                if (!response.ok) throw new Error("Failed to fetch user data");
-                const data = await response.json();
-                setUserId(data.userId);
-            } catch (error) {
-                console.error("Error fetching user ID:", error);
+   const createStream = async () => {
+    try {
+        const response = await fetch("/api/stream", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }, 
+            body: JSON.stringify({
+                title: "My Stream", // You might want to make this dynamic
+                description: "Stream description"
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to create stream");
+        }
+
+        const data = await response.json();
+        setStreamData(data);
+    } catch (error) {
+        setError(error.message);
+    }
+
+   };
+
+   const startStream = async () => {
+    try {
+        // Get local media stream
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
+
+        // Show preview to streamer
+        mediaStreamRef.current = stream;
+        videoRef.current.srcObject = stream;
+
+        // Start the stream on backend
+        const response = await fetch(`/api/streams/${streamData.id}/start`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getIten("token")}`
             }
-        };
+        });
 
-        fetchUserId();
-
-        socketRef.current = io("http://localhost:3000");
-        return () => socketRef.current.disconnect();
-    }, []);
-
-    const startStream = async () => {
-        if (!userId) {
-            console.error("User ID is not available");
-            return;
+        if (!response.ok) {
+            throw new Error("Failed to start stream");
         }
 
+        setIsStreaming(true);
+
+        // Here you would show RTMP details to user
+        alert(`
+            Use these details in OBS/Streamlabs:
+            RTMP URL: ${streamData.rtmpUrl}
+            Stream Key: ${streamData.streamKey}
+            `);
+    } catch (error) {
+        setError(error.message);
+        stopStream();    
+    }
+   };
+
+   const stopStream = async () => {
+    if (mediaStreamRef.current) {
+        // Stop local preview
+        mediaStreamRef.current.getTracks().forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+
+        // End stream on backend
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: true, 
-                audio: true,
-            });
-
-            mediaStreamRef.current = stream;
-            videoRef.current.srcObject = stream;
-
-            socketRef.current.emit("startStream", { userId });
-            setIsStreaming(true);
-
-            const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder = ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    socketRef.current.emit("streamData", {
-                        userId,
-                        chunk: event.data,
-                    });
+            await fetch(`/api/streams/${streamData.id}/end`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
-            };
-            mediaRecorder.start(1000);
+            });
         } catch (error) {
-            console.log("Error accessing media devices:", error);
+            console.error("Error ending stream:", error);
         }
-    };
 
-    const stopStream = () => {
-        if (mediaStreamRef.current) {
-            mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-            socketRef.current.emit("endStream", { userId });
-            setIsStreaming(false);
-        }
-    };
+        setIsStreaming(false);
+        setStreamData(null);
+    }
+   };
 
-    return (
-        <div>
-            <video ref={videoRef} autoPlay muted className="w-full max-w-2xl" />
-            <div className="mt-4">
-                {!isStreaming ? (
-                    <button
-                        onClick={startStream}
-                        className="px-4 py-2 bg-blue-500 text-white rounded"
-                    >
-                        Start Streaming
-                    </button>
-                ): (
-                    <button
-                        onClick={stopStream}
-                        className="px-4 py-2 bg-red-500 text-white rounded"
-                    >
-                        Stop Streaming
-                    </button>
-                )}
+   return (
+    <div className="max-w-2xl mx-auto p-4">
+        {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {error}
             </div>
+        )}
+
+        <div className="bg-black rounded-lg overflow-hidden">
+            <video 
+                ref={videoRef}
+                autoPlay
+                muted
+                className="w-full h-full object-cover"
+            />
         </div>
-    );
+
+        <div className="mt-4 flex justify-center gap-4">
+            {!streamData && (
+                <button 
+                    onClick={createStream}
+                    className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                >
+                    Create Stream
+                </button>
+            )}
+
+            {streamData && !isStreaming && (
+                <button
+                    onClick={startStream}
+                    className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                    Start Preview
+                </button>
+            )}
+
+            {isStreaming && (
+                <button
+                    onClick={stopStream}
+                    className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                    End Stream
+                </button>
+            )}
+        </div>
+        {streamData && (
+            <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold mb-2">Streaming Details</h3>
+                <div className="space-y-2">
+                    <p className="text-sm">
+                        <span className="font-medium">RTMP URL:</span> {streamData.rtmpUrl}
+                    </p>
+                    <p className="text-sm">
+                        <span className="font-medium">Stream Key:</span> {streamData.streamKey}
+                    </p>
+                </div>
+
+            </div>
+        )}
+
+    </div>
+   );
 
 
 };
