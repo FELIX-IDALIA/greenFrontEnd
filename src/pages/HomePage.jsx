@@ -83,6 +83,9 @@ const HomePage = () => {
         setSearchQuery(e.target.value);
     };
 
+    // Function to handle go live
+    const handleGoLive = () => navigate("/home/goLive");
+
     
 
     return (
@@ -136,6 +139,7 @@ const HomePage = () => {
                 handleButtonClick={handleButtonClick} 
                 showPopup={showPopup}
                 isSidebarOpen={isSidebarOpen}
+                handleGoLive={handleGoLive}
             />    
 
             {/* Floating Messages Button */}
