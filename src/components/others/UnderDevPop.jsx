@@ -12,7 +12,7 @@ const UnderDevPop = ({ showPopup }) => {
             transform: "translateX(-50%)", // Center horinzontally 
        }} 
     >
-        This feature is under development!
+        Coming soon!
     </div>
     );
 };
