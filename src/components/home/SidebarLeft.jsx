@@ -33,7 +33,7 @@ const SidebarLeft = ({ isSidebarOpen, liveStreams, following, trending, savedStr
                     )}
                     isSidebarOpen={isSidebarOpen}
                 >
-                    Online
+                    online
                 </Btn>
 
                 {/* Live Streams Button */}
