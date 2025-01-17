@@ -1,7 +1,7 @@
 //import { Menu, ChevronDown, User, Video, History, Tv, Users, TrendingUp, BookMark, MessageSquare, } from "lucide-react";
 //import Profile from "../components/home/Profile.jsx";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/home/Header.jsx";
 import LeftSideTB from "../components/home/LeftSideTB.jsx";
@@ -14,6 +14,7 @@ import FloatingMsgBtn from "../components/home/FloatingMsgBtn.jsx";
 import SearchBar from "../components/home/SearchBar.jsx";
 
 const HomePage = () => {
+   
     
     {/* Navigate */}
     const navigate = useNavigate();
@@ -23,7 +24,19 @@ const HomePage = () => {
 
     {/* Example message count (Mock data)*/}
     const [newMessages, setNewMessages] = useState(5);
-    
+
+    {/* Example live streams count (Mock data)*/}
+    const [liveStreams, setLiveStreams] = useState(0);
+
+    {/* Example following count (mock data)*/}
+    const [following, setFollowing] = useState(100);
+
+    {/* Example trending count (mock data)*/}
+    const [trending, setTrending] = useState(0);
+
+    {/* Example saved Streams count (mock data)*/}
+    const [savedStreams, setSavedStreams] = useState(21);
+
     //const [activeComponent, setActiveComponent] = useState("main"); // Tracks active view
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -86,6 +99,25 @@ const HomePage = () => {
     // Function to handle go live
     const handleGoLive = () => navigate("/home/goLive");
 
+     {/* Function to generate a random number for mock data*/}
+     const generateRandomNumber = (maxVal, minVal) => {
+        return Math.floor((Math.random() * (maxVal - minVal)) + minVal); // Random number between 1 and 200
+    };
+
+    {/* Hook to Update the liveStreams state every 3 seconds */}
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setLiveStreams(generateRandomNumber(200, 1));
+                setTrending(generateRandomNumber(150, 50));
+            }, 3000);
+
+            // Cleanup interval on component unmount
+            return () => clearInterval(interval);
+        }, [])
+    
+
+
+
     
 
     return (
@@ -113,6 +145,10 @@ const HomePage = () => {
                 {/* Sidebar */}
                 <SidebarLeft 
                     isSidebarOpen={isSidebarOpen} 
+                    liveStreams={liveStreams}
+                    following={following}
+                    trending={trending}
+                    savedStreams={savedStreams}
                 /> 
             </Header>
 
