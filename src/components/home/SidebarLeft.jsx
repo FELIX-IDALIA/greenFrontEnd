@@ -18,7 +18,7 @@ const Btn = ({ icon: Icon, children, isSidebarOpen }) => {
     );
 };
 
-const SidebarLeft = ({ isSidebarOpen}) => {
+const SidebarLeft = ({ isSidebarOpen, liveStreams, following, trending, savedStreams }) => {
 
     return (
         <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)]   
@@ -29,18 +29,82 @@ const SidebarLeft = ({ isSidebarOpen}) => {
                 {/* Online Button */}
                 <Btn className="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-50 rounded-lg"
                     icon={({ className }) => (
-                        <Dot className={`text-green-600 ${className}`} />
+                        <Dot className={`text-green-600 ${className} animate-blink`} />
                     )}
                     isSidebarOpen={isSidebarOpen}
                 >
                     Online
                 </Btn>
 
-                {/* Other Buttons */}
-                <Btn icon={Tv} isSidebarOpen={isSidebarOpen}>Live Streams</Btn>
-                <Btn icon={Users} isSidebarOpen={isSidebarOpen}>Following</Btn>
-                <Btn icon={TrendingUp} isSidebarOpen={isSidebarOpen}>Trending</Btn>
-                <Btn icon={Bookmark} isSidebarOpen={isSidebarOpen}>Saved Streams</Btn>
+                {/* Live Streams Button */}
+                <div className="relative">
+                    <Btn icon={({ className }) => (
+                        <div className="relative">
+                            {liveStreams > 0 && (
+                                <div className="absolute -top-3 -right-3 bg-red-600 text-white text-[0.6rem] font-bold min-w-[1.25rem] h-4 rounded-full flex items-center justify-center shadow-md">
+                                    {liveStreams > 99 ? "99+" : liveStreams}
+                                </div>
+                            )}
+                            <Tv className={`text-gray-600 ${className}`} />
+                        </div>
+                    )} isSidebarOpen={isSidebarOpen}>
+                        Live Streams
+                    </Btn>
+                    
+                </div>
+
+                {/* Following Button */}
+                <div className="relative">
+                    <Btn icon={({ className }) => (
+                        <div className="relative">
+                            {following > 0 && (
+                                <div className="absolute -top-3 -right-3 bg-red-600 text-white text-[0.6rem] font-bold min-w-[1.25rem] h-4 rounded-full flex items-center justify-center shadow-md">
+                                    {following > 99 ? "99+" : following}
+                                </div>
+                            )}
+                            <Users className={`text-gray-600 ${className}`} />
+                        </div>
+                        )} isSidebarOpen={isSidebarOpen}>
+                            Following
+                    </Btn>
+                </div>
+
+                {/* Trending Up */}
+                <div className="relative">
+                    <Btn icon={({ className }) => (
+                        <div className="relative">
+                            {trending > 0 && (
+                                <div className="absolute -top-3 -right-3 bg-red-600 text-white text-[0.6rem] font-bold min-w-[1.25rem] h-4 rounded-full flex items-center justify-center shadow-md">
+                                    {trending > 99 ? "99+" : trending}
+                                </div>
+                            )}
+                            <TrendingUp className={`text-gray-600 ${className}`} />
+                        </div>
+                    )} isSidebarOpen={isSidebarOpen}>
+                        Trending
+                    </Btn>
+                </div>
+
+                {/* Saved Streams*/}
+                <div className="relative">
+                    <Btn icon={({ className }) => (
+                        <div className="relative">
+                            {savedStreams > 0 && (
+                                <div className="absolute -top-3 -right-3 bg-red-600 text-white text-[0.6rem] font-bold min-w-[1.25rem] h-4 rounded-full flex items-center justify-center shadow-md">
+                                    {savedStreams > 19 ? "20+" : savedStreams}
+                                </div>
+                            )}
+                            <Bookmark className={`text-gray-600 ${className}`} />
+                        </div>
+                    )} isSidebarOpen={isSidebarOpen}>
+                        Saved Streams
+                    </Btn>
+                </div>
+
+                {/*<Btn icon={Tv} isSidebarOpen={isSidebarOpen}>Live Streams</Btn>*/}
+                {/*<Btn icon={Users} isSidebarOpen={isSidebarOpen}>Following</Btn>*/}
+                {/*<Btn icon={TrendingUp} isSidebarOpen={isSidebarOpen}>Trending</Btn>*/}
+                {/*<Btn icon={Bookmark} isSidebarOpen={isSidebarOpen}>Saved Streams</Btn>*/}
             </div>
             
         </div>
