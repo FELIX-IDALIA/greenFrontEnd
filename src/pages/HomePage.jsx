@@ -107,7 +107,7 @@ const HomePage = () => {
     {/* Hook to Update the liveStreams state every 3 seconds */}
         useEffect(() => {
             const interval = setInterval(() => {
-                setLiveStreams(generateRandomNumber(200, 1));
+                setLiveStreams(generateRandomNumber(200, 50));
                 setTrending(generateRandomNumber(150, 50));
             }, 3000);
 
