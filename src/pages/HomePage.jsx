@@ -12,6 +12,7 @@ import Main from "../components/home/Main.jsx";
 import ActionFooter from "../components/home/ActionFooter.jsx";
 import FloatingMsgBtn from "../components/home/FloatingMsgBtn.jsx";
 import SearchBar from "../components/home/SearchBar.jsx";
+import CreateStream from "../components/streams/CreateStream.jsx";
 
 const HomePage = () => {
    
@@ -162,9 +163,10 @@ const HomePage = () => {
                 msgBtnDisabled={msgBtnDisabled}
             /> 
             {/* Main */}
-            <Main 
-                isSidebarOpen={isSidebarOpen} 
-            /> 
+            <Main isSidebarOpen={isSidebarOpen}>
+                <CreateStream />
+            </Main>
+            
 
             
             
