@@ -11,7 +11,7 @@ const CreateStream = () => {
 
    const createStream = async () => {
     try {
-        const response = await fetch("/api/stream", {
+        const response = await fetch("http://localhost:3000/home/api/create/stream", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,10 +48,10 @@ const CreateStream = () => {
         videoRef.current.srcObject = stream;
 
         // Start the stream on backend
-        const response = await fetch(`/api/streams/${streamData.id}/start`, {
+        const response = await fetch("http://localhost:3000/home/api/start/stream", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${localStorage.getIten("token")}`
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         });
 
@@ -69,10 +69,11 @@ const CreateStream = () => {
             `);
     } catch (error) {
         setError(error.message);
-        stopStream();    
+        //stopStream();    
     }
    };
 
+   {/*
    const stopStream = async () => {
     if (mediaStreamRef.current) {
         // Stop local preview
@@ -94,7 +95,7 @@ const CreateStream = () => {
         setIsStreaming(false);
         setStreamData(null);
     }
-   };
+   }; */}
 
    return (
     <div className="max-w-2xl mx-auto p-4">
@@ -132,6 +133,7 @@ const CreateStream = () => {
                 </button>
             )}
 
+            {/*
             {isStreaming && (
                 <button
                     onClick={stopStream}
@@ -139,7 +141,7 @@ const CreateStream = () => {
                 >
                     End Stream
                 </button>
-            )}
+            )} */}
         </div>
         {streamData && (
             <div className="mt-6 bg-gray-50 p-4 rounded-lg">
