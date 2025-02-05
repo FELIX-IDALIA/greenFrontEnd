@@ -6,11 +6,11 @@ const LeftDisplay = ({
     
 }) => {
     const words = [
-        "Green is where connections come alive, where laughter is shared, and where memories are created.",
-        "Green is the place where kindness blossoms, where joy is contagious, and where bonds grow stronger.",
-        "Green is the platform where dreams are nurtured, where frienships are cherished, and where love finds home.",
-        "Green is where moments turn into stories, where hearts connect, and where happiness becomes a way of life.",
-        "Green is the space where everyone belongs, where fun has no limits, and where togetherness thrives."
+        "where connections come alive, where laughter is shared, and where memories are created.",
+        "the place where kindness blossoms, where joy is contagious, and where bonds grow stronger.",
+        "the platform where dreams are nurtured, where frienships are cherished, and where love finds home.",
+        "where moments turn into stories, where hearts connect, and where happiness becomes a way of life.",
+        "the space where everyone belongs, where fun has no limits, and where togetherness thrives."
     ]; // Words to display
 
     const [currentWord, setCurrentWord] = useState("");
@@ -68,8 +68,8 @@ const LeftDisplay = ({
         
         <div className="hidden lg:flex lg:w-1/2 bg-blue-500 text-white flex-col justify-center items-center p-12">
             <h1 className="text-4xl font-bold mb-4 ">Welcome to Green Live!</h1>
-            <p  className="text-lg font-semibold leading-realaxed">
-                {currentWord}
+            <p  className="text-lg font-semibold leading-relaxed">
+                Green is {currentWord}
                 <span className="ml-1 text-white animate-pulse">|</span>
             </p>
         </div>
