@@ -1,5 +1,10 @@
-import React, { useState, useEffect} from 'react';
-const LeftDisplay = () => {
+import React, { useState, useEffect, useCallback, useMemo} from 'react';
+const LeftDisplay = ({
+    typingSpeed = 120,
+    deletingSpeed = 20,
+    pauseTime = 1500,
+    
+}) => {
     const words = [
         "Green is where connections come alive, where laughter is shared, and where memories are created.",
         "Green is the place where kindness blossoms, where joy is contagious, and where bonds grow stronger.",
@@ -11,35 +16,54 @@ const LeftDisplay = () => {
     const [currentWord, setCurrentWord] = useState("");
     const [wordIndex, setWordIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [speed, setSpeed] = useState(150); // Typing and deleting speed
+    const [isPaused, setIsPaused] = useState(false); 
+
+    const sentences = useMemo(() => words.map(word => word.trim()), [words]);
+
+    const getCurrentSpeed = useCallback(() => {
+        if (isPaused) return pauseTime;
+        return isDeleting ? deletingSpeed : typingSpeed;
+    }, [isDeleting, isPaused, deletingSpeed, typingSpeed, pauseTime]);
+
+    const handleAnimation = useCallback(() => {
+        const currentSentence = sentences[wordIndex];
+
+        if (!currentSentence) return;
+
+        if (isPaused) {
+            setIsPaused(false);
+            setIsDeleting(true);
+            return;
+        }
+
+        if (!isDeleting) {
+            if (currentWord === currentSentence) {
+                setIsPaused(true);
+                return;
+            }
+            setCurrentWord(prev => currentSentence.substring(0, prev.length + 1));
+        } else {
+            if (currentWord === '') {
+                setIsDeleting(false);
+                setWordIndex(prev => (prev + 1) % sentences.length);
+                return;
+            }
+            setCurrentWord(prev => prev.substring(0, prev.length - 1));
+        }
+    }, [currentWord, isDeleting, wordIndex, sentences, isPaused]);
 
     useEffect(() => {
-        const handleTyping = setTimeout(() => {
-            const fullWord = words[wordIndex]; // Get the current word
+        if (!sentences.length) return;
 
-            if (!isDeleting) {
-                // Typing forward
-                setCurrentWord((prev) => fullWord.substring(0, prev.length + 1));
-                if (currentWord === fullWord) {
-                    setIsDeleting(true);
-                    setSpeed(100); // Pause before deleting
-                }
-            } else {
-                // Deleting
-                setCurrentWord((prev) => fullWord.substring(0, prev.length -1));
-                if (currentWord === "") {
-                    setIsDeleting(false);
-                    setWordIndex((prev) => (prev + 1) % words.length); // Move to next word
-                    setSpeed(150);
-                }
-            }
-        }, speed);
+        const timeout = setTimeout(handleAnimation, getCurrentSpeed());
+        return () => clearTimeout(timeout);
+    }, [handleAnimation, getCurrentSpeed, sentences]);
 
-        return () => clearTimeout(handleTyping); // Cleanup timeout
-    }, [currentWord, isDeleting, wordIndex, words, speed]);
-
-    
-
+    // Error state handling
+    if (!sentences.length) {
+        return <div className="text-red-500">No sentences provided</div>;
+    }
+              
     return (
         
         <div className="hidden lg:flex lg:w-1/2 bg-blue-500 text-white flex-col justify-center items-center p-12">
@@ -50,10 +74,6 @@ const LeftDisplay = () => {
             </p>
         </div>
         );
-        
-       
-    
-    
 };
 
 export default LeftDisplay;
