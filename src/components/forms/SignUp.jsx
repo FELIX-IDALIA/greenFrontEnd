@@ -84,7 +84,7 @@ const SignUp = ({ setForm }) => {
         
 
     return (
-        <div className="flex justify-center items-center min-h-screen ">
+        <div className="flex justify-center items-center h-auto py-10 ">
             <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
                 <h2 className="text-3xl font-bold mb-8 text-gray-800 text-center">Create account</h2>
                 
