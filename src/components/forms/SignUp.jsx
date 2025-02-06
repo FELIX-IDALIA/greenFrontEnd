@@ -44,7 +44,7 @@ const SignUp = ({ setForm }) => {
             setButtonText("Submitting...");
 
             try {
-                const response = await fetch("http://localhost:3000/Account/SignUp", {
+                const response = await fetch("https://greenbackend-1-3sqo.onrender.com/Account/SignUp", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
