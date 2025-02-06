@@ -11,7 +11,8 @@ const ActionFooter = ({ handleButtonClick, showPopup, isSidebarOpen, handleGoLiv
             >
                 {/* Go Live Button */}
                 <button 
-                    className="flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg border hover:bg-purple-700 transition"                    
+                    className="flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg border hover:bg-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={true}                    
                     onClick={handleGoLive}
                     
                 
