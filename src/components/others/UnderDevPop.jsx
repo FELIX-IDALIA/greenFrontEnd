@@ -8,7 +8,7 @@ const UnderDevPop = ({ showPopup }) => {
             }`}
        style={{
             left: `min(calc(100vw - 10px), max(10px, ${showPopup.x}px))`,   // Prevent overflow 
-            top: `${showPopup.y - 45}px`, // Position above the button
+            top: `${showPopup.y - 10}px`, // Position above the button
             transform: "translateX(-50%)", // Center horinzontally 
        }} 
     >
